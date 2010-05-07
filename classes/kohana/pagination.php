@@ -79,7 +79,7 @@ class Kohana_Pagination {
         $this->config = $this->config_group() + $this->config;
 
         // Settings the request that will be used for pagination urls
-        $request = (empty($request)) ? Request::instance() : $request;
+        $this->request = ($request) ? Request::instance() : $request;
 
 		// Pagination setup
 		$this->setup($config);
