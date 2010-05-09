@@ -8,7 +8,7 @@
  * @copyright  (c) 2008-2009 Kohana Team
  * @license    http://kohanaphp.com/license.html
  */
-class Kohana_Pagination {
+class Pagination {
 
 	// Merged configuration settings
 	protected $config = array(
@@ -52,10 +52,7 @@ class Kohana_Pagination {
 
 	// Query offset
     protected $offset;
-
-    // Request which uri is used for pagination
-    protected $request;
-
+    
 	/**
 	 * Creates a new Pagination object.
 	 *
@@ -73,13 +70,10 @@ class Kohana_Pagination {
 	 * @param   array  configuration
 	 * @return  void
 	 */
-	public function __construct(array $config = array(), Request $request = NULL)
+	public function __construct(array $config = array())
 	{
 		// Overwrite system defaults with application defaults
         $this->config = $this->config_group() + $this->config;
-
-        // Settings the request that will be used for pagination urls
-        $this->request = (empty($request)) ? Request::instance() : $request;
 
 		// Pagination setup
 		$this->setup($config);
@@ -146,13 +140,11 @@ class Kohana_Pagination {
 			switch ($this->config['current_page']['source'])
 			{
 				case 'query_string':
-					$this->current_page = isset($_GET[$this->config['current_page']['key']])
-						? (int) $_GET[$this->config['current_page']['key']]
-						: 1;
-					break;
+                    $this->current_page = Arr::get($_GET, $this->config['current_page']['key'], 1);
+                    break;
 
                 case 'route':
-					$this->current_page = (int) $this->request->param($this->config['current_page']['key'], 1);
+					$this->current_page = (int) Request::$current->param($this->config['current_page']['key'], 1);
 					break;
 			}
 
@@ -188,10 +180,10 @@ class Kohana_Pagination {
 		switch ($this->config['current_page']['source'])
 		{
 			case 'query_string':
-				return URL::site($this->request->uri).URL::query(array($this->config['current_page']['key'] => $page));
+				return URL::site(Request::$current->uri).URL::query(array($this->config['current_page']['key'] => $page));
 
             case 'route':
-				return URL::site($this->request->uri(array($this->config['current_page']['key'] => $page))).URL::query();
+				return URL::site(Request::$current->uri(array($this->config['current_page']['key'] => $page))).URL::query();
 		}
 
 		return '#';
