@@ -8,7 +8,7 @@
  * @copyright  (c) 2008-2009 Kohana Team
  * @license    http://kohanaphp.com/license.html
  */
-class Pagination {
+class Kohana_Pagination {
 
 	// Merged configuration settings
 	protected $config = array(
