@@ -142,14 +142,8 @@ class Kohana_Pagination {
 				case 'query_string':
                     $this->current_page = Arr::get($_GET, $this->config['current_page']['key'], 1);
                     break;
-
-<<<<<<< HEAD
-                case 'route':
-					$this->current_page = (int) Request::$current->param($this->config['current_page']['key'], 1);
-=======
 				case 'route':
 					$this->current_page = (int) Request::current()->param($this->config['current_page']['key'], 1);
->>>>>>> upstream/master
 					break;
 			}
 
@@ -185,17 +179,10 @@ class Kohana_Pagination {
 		switch ($this->config['current_page']['source'])
 		{
 			case 'query_string':
-<<<<<<< HEAD
-				return URL::site(Request::$current->uri).URL::query(array($this->config['current_page']['key'] => $page));
-
-            case 'route':
-				return URL::site(Request::$current->uri(array($this->config['current_page']['key'] => $page))).URL::query();
-=======
 				return URL::site(Request::current()->uri).URL::query(array($this->config['current_page']['key'] => $page));
 
 			case 'route':
 				return URL::site(Request::current()->uri(array($this->config['current_page']['key'] => $page))).URL::query();
->>>>>>> upstream/master
 		}
 
 		return '#';
